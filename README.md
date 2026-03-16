@@ -101,6 +101,7 @@ Secret 'myproject/stripe/api-key' exists and has a value.
 
 ### Use in Scripts
 
+**Bash:**
 ```bash
 # Option 1: Direct
 API_KEY=$(secret-get "myproject/stripe/api-key")
@@ -111,6 +112,24 @@ API_KEY=$(get_secret "myproject/stripe/api-key")
 
 # Option 3: Fail if missing
 API_KEY=$(require_secret "myproject/stripe/api-key")
+```
+
+**Python (drop-in replacement for `load_dotenv`):**
+```python
+# Replace: from dotenv import load_dotenv; load_dotenv()
+# With:
+from secrets_loader import load_secrets
+load_secrets("myproject/env")  # loads all secrets under prefix into os.environ
+
+# Then os.getenv() keeps working as before:
+import os
+api_key = os.getenv("STRIPE_API_KEY")
+```
+
+**Run any command with secrets pre-loaded (no code changes needed):**
+```bash
+secret-env myproject/env -- python3 my_script.py
+secret-env myproject/env skills/exa -- python3 multi_service.py
 ```
 
 ### Rotate a Secret
@@ -217,6 +236,7 @@ Replace `ACCOUNT_ID` with your AWS account ID and `myproject/*` with your prefix
 | `secret-store delete <name>` | Print command to delete a secret |
 | `secret-store get-arn <name>` | Print the ARN of a secret |
 | `secret-get <name>` | Retrieve a secret's value (for scripts) |
+| `secret-env <prefix> -- <cmd>` | Run any command with secrets pre-loaded as env vars |
 
 ## Files
 
@@ -224,7 +244,9 @@ Replace `ACCOUNT_ID` with your AWS account ID and `myproject/*` with your prefix
 |------|---------|
 | `secret-store` | Main CLI — create, update, verify, list, delete secrets |
 | `secret-get` | Retrieve a secret value (for use in scripts) |
-| `secrets-lib.sh` | Sourceable library with `get_secret()` and `require_secret()` |
+| `secret-env` | Run commands with secrets loaded as environment variables |
+| `secrets-lib.sh` | Bash library with `get_secret()` and `require_secret()` |
+| `secrets_loader.py` | Python drop-in replacement for `load_dotenv()` |
 | `install.sh` | One-line installer for scripts + AI harness configs |
 | `AI-HARNESS-PROTOCOL.md` | Full protocol doc for any AI tool integration |
 
