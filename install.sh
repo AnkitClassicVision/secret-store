@@ -178,6 +178,20 @@ else
     echo "Created: ~/.gemini/GEMINI.md"
 fi
 
+# Codex CLI global instructions
+mkdir -p ~/.codex
+if [ -f ~/.codex/instructions.md ]; then
+    if ! grep -q "Secrets Management" ~/.codex/instructions.md; then
+        echo -e "\n$PROTOCOL" >> ~/.codex/instructions.md
+        echo "Updated: ~/.codex/instructions.md"
+    else
+        echo "Already in: ~/.codex/instructions.md"
+    fi
+else
+    echo -e "# Global Instructions\n\n$PROTOCOL" > ~/.codex/instructions.md
+    echo "Created: ~/.codex/instructions.md"
+fi
+
 # Save full protocol doc
 mkdir -p ~/.config/ai-harness
 cat > ~/.config/ai-harness/secrets-protocol.md << 'DOC'

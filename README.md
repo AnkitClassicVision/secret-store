@@ -152,7 +152,8 @@ The installer automatically configures these AI tools to use the secrets protoco
 |------|------------|--------------|
 | **Claude Code** | `~/.claude/CLAUDE.md` | Global instruction for all projects |
 | **Gemini CLI** | `~/.gemini/GEMINI.md` | Global instruction for all sessions |
-| **Codex / Other** | `AGENTS.md` (per repo) | Add protocol reference manually |
+| **Codex CLI** | `~/.codex/instructions.md` | Global instruction for all sessions |
+| **Other** | `AGENTS.md` (per repo) | Add protocol reference manually |
 
 ### Adding to a New AI Tool
 
