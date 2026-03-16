@@ -51,13 +51,13 @@ The secret value **never appears** in the AI conversation, process args, or shel
 ### One-Line Install
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/YOUR_ORG/secret-store/main/install.sh)
+bash <(curl -sL https://raw.githubusercontent.com/AnkitClassicVision/secret-store/main/install.sh)
 ```
 
 Or clone and run:
 
 ```bash
-git clone https://github.com/YOUR_ORG/secret-store.git
+git clone https://github.com/AnkitClassicVision/secret-store.git
 bash secret-store/install.sh
 ```
 

@@ -3,7 +3,7 @@
 # Installs secret-store/secret-get to ~/.local/bin and configures all AI harnesses.
 #
 # Usage (team members):
-#   curl -sL https://raw.githubusercontent.com/YOUR_ORG/shared-tools/main/install-secrets-cli.sh | bash
+#   curl -sL https://raw.githubusercontent.com/AnkitClassicVision/secret-store/main/install.sh | bash
 #   OR
 #   bash /path/to/install-secrets-cli.sh
 #
