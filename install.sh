@@ -223,6 +223,12 @@ source ~/.local/bin/secrets-lib.sh
 API_KEY=$(get_secret "project/service/key")
 API_KEY=$(require_secret "project/service/key")  # fatal if missing
 ```
+
+## Auto-configured Tools
+The installer configures all three:
+- **Claude Code**: ~/.claude/CLAUDE.md
+- **Gemini CLI**: ~/.gemini/GEMINI.md
+- **Codex CLI**: ~/.codex/instructions.md
 DOC
 echo "Saved: ~/.config/ai-harness/secrets-protocol.md"
 

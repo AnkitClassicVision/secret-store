@@ -49,8 +49,13 @@ API_KEY=$(require_secret "project/service/key")
 ```
 
 ## Integration
-To add this protocol to any AI harness, include this file:
-- **Claude Code**: Already in `~/.claude/CLAUDE.md` (global)
-- **Gemini CLI**: Add `<!-- include: ~/.config/ai-harness/secrets-protocol.md -->` to GEMINI.md
-- **Codex**: Add to AGENTS.md in repo root
-- **Any other**: Reference or copy this file into the tool's instruction config
+
+The installer (`install.sh`) automatically configures all three major AI coding tools:
+
+| Tool | Global Config | Auto-configured |
+|------|--------------|-----------------|
+| **Claude Code** | `~/.claude/CLAUDE.md` | Yes |
+| **Gemini CLI** | `~/.gemini/GEMINI.md` | Yes |
+| **Codex CLI** | `~/.codex/instructions.md` | Yes |
+
+For any other AI tool, add the Secrets Management block from this file into the tool's instruction config, or reference this file directly.
