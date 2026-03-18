@@ -201,7 +201,41 @@ Each team member needs:
 2. **IAM permissions** for Secrets Manager (example policy below)
 3. **Run the installer**: `bash install.sh`
 
-### Minimum IAM Policy
+### IAM Policies (Scoped)
+
+In practice you usually want **two roles**:
+
+- **Read-only (runtime/CI)** — can fetch secrets at deploy/runtime
+- **CRUD (operators/dev)** — can create/update/delete secrets
+
+> Note: `secretsmanager:ListSecrets` cannot be meaningfully resource-scoped, but it’s only needed if you use `secret-env` / `secrets_loader.py` (they enumerate by prefix). If you only ever call `secret-get` with exact names, you can omit `ListSecrets`.
+
+#### Read-only (runtime/CI)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+      ],
+      "Resource": "arn:aws:secretsmanager:*:ACCOUNT_ID:secret:myproject/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:ListSecrets"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+#### CRUD (operators/dev)
 
 ```json
 {
@@ -211,19 +245,25 @@ Each team member needs:
       "Effect": "Allow",
       "Action": [
         "secretsmanager:CreateSecret",
-        "secretsmanager:GetSecretValue",
         "secretsmanager:PutSecretValue",
+        "secretsmanager:GetSecretValue",
         "secretsmanager:DescribeSecret",
-        "secretsmanager:DeleteSecret",
-        "secretsmanager:ListSecrets"
+        "secretsmanager:DeleteSecret"
       ],
       "Resource": "arn:aws:secretsmanager:*:ACCOUNT_ID:secret:myproject/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:ListSecrets"
+      ],
+      "Resource": "*"
     }
   ]
 }
 ```
 
-Replace `ACCOUNT_ID` with your AWS account ID and `myproject/*` with your prefix to scope access.
+Replace `ACCOUNT_ID` with your AWS account ID and `myproject/*` with your prefix to scope access (or a deeper prefix like `myproject/service/*`).
 
 ## Commands Reference
 
@@ -237,6 +277,8 @@ Replace `ACCOUNT_ID` with your AWS account ID and `myproject/*` with your prefix
 | `secret-store get-arn <name>` | Print the ARN of a secret |
 | `secret-get <name>` | Retrieve a secret's value (for scripts) |
 | `secret-env <prefix> -- <cmd>` | Run any command with secrets pre-loaded as env vars |
+| `secret-seed <manifest>` | Bulk create/update secrets from a manifest (interactive) |
+| `secret-rotation-check` | Flag secrets older than N days (rotation reminder) |
 
 ## Files
 
@@ -247,8 +289,12 @@ Replace `ACCOUNT_ID` with your AWS account ID and `myproject/*` with your prefix
 | `secret-env` | Run commands with secrets loaded as environment variables |
 | `secrets-lib.sh` | Bash library with `get_secret()` and `require_secret()` |
 | `secrets_loader.py` | Python drop-in replacement for `load_dotenv()` |
+| `secret-seed` | Bulk create/update secrets from a manifest (interactive) |
+| `secret-rotation-check` | Rotation reminder (age check, optional CI gate) |
 | `install.sh` | One-line installer for scripts + AI harness configs |
 | `AI-HARNESS-PROTOCOL.md` | Full protocol doc for any AI tool integration |
+| `iam/secret-store-readonly.json` | Read-only IAM policy template |
+| `iam/secret-store-crud.json` | CRUD IAM policy template |
 
 ## License
 
