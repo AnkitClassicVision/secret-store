@@ -74,3 +74,4 @@ For security procedures, business context, risky-change decomposition, onboardin
 For planning, strategy, prioritization, or burnout topics, load `/mnt/d_drive/repos/context_nate/outputs/operating-model-reference.md` before recommending action.
 Do not load that reference for routine coding, tests, builds, narrow fixes, or status checks.
 <!-- MYBCAT-GUIDELINES-END -->
+
